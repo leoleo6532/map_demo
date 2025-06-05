@@ -3,34 +3,52 @@ import os
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from langgraph.prebuilt import create_react_agent
 from langchain_openai import ChatOpenAI
+from rich import print_json
 
 # 設定 LM Studio 為本地 OpenAI server
 os.environ["OPENAI_API_BASE"] = "http://localhost:1234/v1"
 os.environ["OPENAI_API_KEY"] = "lm-studio"
 
+def serialize_messages(messages):
+    """將 LangChain 訊息物件轉換為可序列化格式"""
+    result = []
+    for msg in messages:
+        item = {
+            "role": type(msg).__name__,
+            "content": getattr(msg, "content", ""),
+        }
+        if hasattr(msg, "name"):
+            item["name"] = msg.name
+        if hasattr(msg, "tool_call_id"):
+            item["tool_call_id"] = msg.tool_call_id
+        result.append(item)
+    return result
+
 async def main():
-    # 建立 MCP 客戶端，連接到本地的 Math MCP 伺服器
+    # 建立 MCP 客戶端
     client = MultiServerMCPClient(
         {
             "math": {
-                "transport": "http",
-                "url": "http://localhost:8000/mcp",  # MCP server endpoint
+                "transport": "streamable_http",
+                "url": "http://localhost:8000/mcp",
             }
         }
     )
 
+    # 取得工具並建立 agent
     tools = await client.get_tools()
-
-    # 使用 LM Studio 模型
     agent = create_react_agent(
-        ChatOpenAI(model="TheBloke/Mistral-7B-Instruct-v0.2-GGUF"),  # 請換成你有載的模型
+        ChatOpenAI(model="deepseek/deepseek-r1-0528-qwen3-8b"),
         tools
     )
 
+    # 執行對話
     response = await agent.ainvoke(
         {"messages": [{"role": "user", "content": "請計算 (3 + 5) x 12"}]}
     )
-    print(response)
+
+    # 美化輸出
+    print_json(data={"messages": serialize_messages(response["messages"])})
 
 if __name__ == "__main__":
     asyncio.run(main())
