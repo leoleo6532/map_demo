@@ -39,5 +39,5 @@ if __name__ == "__main__":
         transport="streamable-http",  # 明確使用 HTTP 傳輸協定
         host="0.0.0.0",                # 對外開放（或改成 "127.0.0.1" 僅本地）
         port=8000,
-        path="/mcp"                   # 對應 endpoint 如 http://localhost:8000/mcp
+        path="/mcp/"                   # 對應 endpoint 如 http://localhost:8000/mcp/
     )

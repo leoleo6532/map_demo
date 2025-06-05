@@ -30,7 +30,7 @@ async def main():
         {
             "math": {
                 "transport": "streamable_http",
-                "url": "http://localhost:8000/mcp",
+                "url": "http://localhost:8000/mcp/",
             }
         }
     )
