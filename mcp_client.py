@@ -38,13 +38,13 @@ async def main():
     # 取得工具並建立 agent
     tools = await client.get_tools()
     agent = create_react_agent(
-        ChatOpenAI(model="deepseek/deepseek-r1-0528-qwen3-8b"),
+        ChatOpenAI(model="qwen/qwen3-4b"),
         tools
     )
 
     # 執行對話
     response = await agent.ainvoke(
-        {"messages": [{"role": "user", "content": "請計算 (3 + 5) x 12"}]}
+        {"messages": [{"role": "user", "content": "請計算 (10 + 10) x 12"}]}
     )
 
     # 美化輸出
