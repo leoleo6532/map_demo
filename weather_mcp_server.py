@@ -21,7 +21,7 @@ temperatures = list(range(20, 37))  # 模擬溫度 20～36°C
 @mcp.tool()
 def get_weather(city: Union[str, List[str]]) -> Union[str, List[str]]:
     """
-    模擬查詢台灣城市的氣候資訊，支援單一或多個城市。
+    查詢台灣城市的(氣候, 天氣, 氣象)資訊
 
     Args:
         city (Union[str, List[str]]): 城市名稱或城市名稱列表（例如："台北市"，或 ["台北市", "高雄市"]）
@@ -48,7 +48,7 @@ def get_weather(city: Union[str, List[str]]) -> Union[str, List[str]]:
 @mcp.tool()
 def list_cities() -> List[str]:
     """
-    列出支援查詢氣候資訊的台灣縣市清單。
+    查詢台灣現有哪些縣市
 
     Returns:
         List[str]: 支援的縣市名稱列表。
@@ -60,6 +60,6 @@ if __name__ == "__main__":
     mcp.run(
         transport="streamable-http",
         host="0.0.0.0",
-        port=8001,
+        port=8002,
         path="/mcp/"
     )

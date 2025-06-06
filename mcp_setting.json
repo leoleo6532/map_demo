@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "math": {
+      "type": "streamable_http",
+      "url": "http://127.0.0.1:8001/mcp"
+    },
+    "weather": {
+      "type": "streamable_http",
+      "url": "http://127.0.0.1:8002/mcp"
+    }
+  }
+}
