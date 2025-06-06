@@ -31,7 +31,11 @@ async def main():
             "math": {
                 "transport": "streamable_http",
                 "url": "http://localhost:8000/mcp/",
-            }
+            },
+            "weather": {
+                "transport": "streamable_http",
+                "url": "http://localhost:8001/mcp/",
+        }
         }
     )
 
@@ -42,9 +46,10 @@ async def main():
         tools
     )
 
+    user_input = input("Input : ")
     # 執行對話
     response = await agent.ainvoke(
-        {"messages": [{"role": "user", "content": "請計算 (10 + 10) x 12"}]}
+        {"messages": [{"role": "user", "content": user_input}]}
     )
 
     # 美化輸出
